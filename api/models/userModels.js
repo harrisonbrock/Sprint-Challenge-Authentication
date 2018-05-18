@@ -26,12 +26,9 @@ UserSchema.pre('save', function(next) {
   // Fill this middleware in with the Proper password encrypting, bcrypt.hash()
   // if there is an error here you'll need to handle it by calling next(err);
   // Once the password is encrypted, call next() so that your userController and create a user
-    bcrypt.hash(this.password, SALT_ROUNDS, (err, has) => {
-
-        if(err) return next(err);
-
+    bcrypt.hash(this.password, SALT_ROUNDS).then(hash => {
         this.password = hash;
-        return hash;
+        next();
     })
 });
 
